@@ -28,15 +28,15 @@ void GPIOINIT(void)
 
 void MIC29302PWRKEY(void)
 {
-    //GPIO_SetBits(GPIOC,GPIO_Pin_1);		//关闭模块电源
-    //delay_ms(2000);
-    GPIO_ResetBits(GPIOC,GPIO_Pin_1);         //开启4G模块电源
+    GPIO_SetBits(GPIOC,GPIO_Pin_1);		    //关闭模块电源
+    delay_ms(200);
+    GPIO_ResetBits(GPIOC,GPIO_Pin_1);       //开启4G模块电源
     delay_ms(300);
 }
 
 void RESET4G(void)
 {
-    GPIO_SetBits(GPIOB,GPIO_Pin_1);		//高电平复位
+    GPIO_SetBits(GPIOB,GPIO_Pin_1);		        //高电平复位
     delay_ms(2000);
     GPIO_ResetBits(GPIOB,GPIO_Pin_1);           //低电平工作
     delay_ms(300);

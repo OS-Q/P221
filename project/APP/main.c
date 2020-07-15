@@ -1,3 +1,11 @@
+/*******************************************************************************
+****版本：v1.0.0
+****平台：STM32+EC20
+****日期：2020-07-15
+****作者：Qitas
+****版权：OS-Q
+*******************************************************************************/
+
 #include "delay.h"
 #include "sys.h"
 #include "led.h"
@@ -12,9 +20,9 @@
 #include <stdlib.h>
 #include "timer.h"
 
-#define PRODUCTKEY 		"a1omMktgcKW"
-#define DEVICENAME   	"EC20"
-#define DEVICESECRET    "62YL0yiK4Vnoy3yYPUfk2mIAtHU8a3ae"
+#define PRODUCTKEY 		"a1g94F9f4wi"
+#define DEVICENAME   	"TEST01"
+#define DEVICESECRET    "kvHmPZADuZgn727YObUtYHB8oiKsScp1"
 
 int errcont = 0;
 u8 dev_status_flag = 0;	//设备状态信息
@@ -46,18 +54,16 @@ void RS485_Send_reset(void)
 int main(void)
 {
     u8 cx[8]={0x01,0x03,0x00,0x00,0x00,0x10,0x44,0x06};
-    // u8 rs485buf[9]={0x01,0x03,0x04,0x01 ,0x8D,0x01,0x36 ,0xEA ,0x62};
     u8 res=1;
     u32 cnt=0;
     errcont = 0;
-
     NVIC_Configuration(); 	        //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
     TIM3_Int_Init(999,7199);        //10Khz的计数频率，计数到999为100ms
     GPIOINIT();		                //初始化与LED连接的硬件接口
     uart_init(115200);	 	        //串口初始化为115200
     USART2_Init(115200);            //与4G模块通信
     RS485_Init(9600);               //与485模块通信 波特率看你传感器而定义
-    printf("\r\n ############ http://www.OS-Q.com ############\r\n ########### ("__DATE__ " - " __TIME__ ") ###########");
+    printf("\r\n ############ https://www.OS-Q.com ############\r\n ########## ("__DATE__ " - " __TIME__ ") ##########");
     delay_init();	    	        //延时函数初始化
     delay_ms(100);
     MIC29302PWRKEY();
