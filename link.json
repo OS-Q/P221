@@ -22,7 +22,7 @@
   "frameworks": {
     "arduino": {
       "package": "framework-arduino-mbed",
-      "script": "builder/frameworks/arduino/mbed-core/arduino-core-mbed.py"
+      "script": "extend/frameworks/arduino-core-mbed.py"
     }
   },
   "packages": {
