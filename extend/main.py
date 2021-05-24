@@ -1,3 +1,17 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import sys
 from platform import system
 from os import makedirs
@@ -22,6 +36,19 @@ def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
 
     if upload_options.get("wait_for_upload_port", False):
         env.Replace(UPLOAD_PORT=env.WaitForNewSerialPort(before_ports))
+
+
+def generate_uf2(target, source, env):
+    elf_file = target[0].get_path()
+    env.Execute(
+        " ".join(
+            [
+                join(platform.get_package_dir("tool-rp2040tools") or "", "elf2uf2"),
+                '"%s"' % elf_file,
+                '"%s"' % elf_file.replace(".elf", ".uf2"),
+            ]
+        )
+    )
 
 
 env = DefaultEnvironment()
@@ -98,6 +125,10 @@ else:
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 
+env.AddPostAction(
+    target_elf, env.VerboseAction(generate_uf2, "Generating UF2 image")
+)
+
 #
 # Target: Print binary size
 #
@@ -166,6 +197,7 @@ elif upload_protocol.startswith("jlink"):
         UPLOADCMD='$UPLOADER $UPLOADERFLAGS -CommanderScript "${__jlink_cmd_script(__env__, SOURCE)}"'
     )
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+    upload_source = env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
 
 elif upload_protocol in debug_tools:
     openocd_args = [

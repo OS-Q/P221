@@ -1,10 +1,24 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import copy
 import platform
 
 from platformio.managers.platform import PlatformBase
 
 
-class P31Platform(PlatformBase):
+class P311Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -45,7 +59,7 @@ class P31Platform(PlatformBase):
         if "tools" not in debug:
             debug["tools"] = {}
 
-        for link in ("cmsis-dap", "jlink", "raspberrypi-swd", "stlink"):
+        for link in ("cmsis-dap", "jlink", "raspberrypi-swd"):
             if link not in upload_protocols or link in debug["tools"]:
                 continue
 
@@ -88,13 +102,13 @@ class P31Platform(PlatformBase):
 
     def configure_debug_options(self, initial_debug_options, ide_data):
         debug_options = copy.deepcopy(initial_debug_options)
-        adapter_speed = initial_debug_options.get("speed")
+        adapter_speed = initial_debug_options.get("speed", "5000")
         if adapter_speed:
             server_options = debug_options.get("server") or {}
             server_executable = server_options.get("executable", "").lower()
-            if "openocd" in server_executable:
+            if "target/cmsis-dap.cfg" in server_options.get("arguments", []):
                 debug_options["server"]["arguments"].extend(
-                    ["-c", "adapter speed %s" % adapter_speed]
+                    ["-c", "adapter_khz %s" % adapter_speed]
                 )
             elif "jlink" in server_executable:
                 debug_options["server"]["arguments"].extend(
