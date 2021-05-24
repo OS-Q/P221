@@ -18,7 +18,7 @@ import platform
 from platformio.managers.platform import PlatformBase
 
 
-class P31Platform(PlatformBase):
+class P311Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -59,7 +59,7 @@ class P31Platform(PlatformBase):
         if "tools" not in debug:
             debug["tools"] = {}
 
-        for link in ("cmsis-dap", "jlink", "raspberrypi-swd", "stlink"):
+        for link in ("cmsis-dap", "jlink", "raspberrypi-swd"):
             if link not in upload_protocols or link in debug["tools"]:
                 continue
 
@@ -102,13 +102,13 @@ class P31Platform(PlatformBase):
 
     def configure_debug_options(self, initial_debug_options, ide_data):
         debug_options = copy.deepcopy(initial_debug_options)
-        adapter_speed = initial_debug_options.get("speed")
+        adapter_speed = initial_debug_options.get("speed", "5000")
         if adapter_speed:
             server_options = debug_options.get("server") or {}
             server_executable = server_options.get("executable", "").lower()
-            if "openocd" in server_executable:
+            if "target/cmsis-dap.cfg" in server_options.get("arguments", []):
                 debug_options["server"]["arguments"].extend(
-                    ["-c", "adapter speed %s" % adapter_speed]
+                    ["-c", "adapter_khz %s" % adapter_speed]
                 )
             elif "jlink" in server_executable:
                 debug_options["server"]["arguments"].extend(
