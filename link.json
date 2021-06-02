@@ -1,6 +1,6 @@
 {
   "name": "P311",
-  "title": "OS-Q Raspberry Pi RP2040 MCU",
+  "title": "OS-Q RP2040 MCU",
   "description": "RP2040 is a low-cost, high-performance microcontroller device with with a large on-chip memory, symmetric dual-core processor complex, and rich peripheral.",
   "homepage": "https://www.raspberrypi.org/documentation/rp2040/getting-started/",
   "keywords": [
