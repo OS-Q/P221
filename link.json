@@ -17,11 +17,11 @@
     "type": "git",
     "url": "https://github.com/platformio/platform-raspberrypi.git"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "frameworks": {
     "arduino": {
       "package": "framework-arduino-mbed",
-      "script": "extend/frameworks/arduino/mbed-core/arduino-core-mbed.py"
+      "script": "builder/frameworks/arduino/mbed-core/arduino-core-mbed.py"
     }
   },
   "packages": {
@@ -38,7 +38,6 @@
     },
     "tool-rp2040tools": {
       "type": "uploader",
-      "optional": true,
       "owner": "platformio",
       "version": "~1.0.2"
     },
