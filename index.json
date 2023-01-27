@@ -1,0 +1,36 @@
+{
+    "type":"SoC",
+    "name":"KF32A141",
+    "title": "chipon KF32A141 MCU",
+    "description":"chipon AEC-Q100 MCU",
+    "Core": {
+        "CoreNum": 1,
+        "Core":"KungFu32",
+        "Fmax":48,
+        "DMIPS": 125,
+        "CoreMark": 285
+    },
+    "manufacturer": {
+        "vendor":"chipon",
+        "homepage":"https://www.chipon-ic.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SoCXin/KF32A141.git"
+    },
+    "version":"1.0.0",
+    "series":["KF32A1413","KF32A1416"],
+    "package":["TSSOP20","LQFP48","QFN32"],
+    "peripheral": ["AEC-Q100","ADC","UART","SPI","IIC"],
+    "ESD": {
+        "HBM": 4000,
+        "CDM": 500
+    },
+    "keywords": [
+        "KungFu32",
+        "chipon",
+        "AEC-Q100","ADC","I2C","RTC","SPI","UART",
+        "5.5V","2.7V"
+    ]
+}
+
